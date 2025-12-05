@@ -1,0 +1,8 @@
+gunicorn
+Flask
+Werkzeug
+flask-cors
+Flask-sock
+psutil
+requests
+waitress
