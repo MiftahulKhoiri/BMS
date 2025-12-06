@@ -1,31 +1,40 @@
-from sqlalchemy import Integer, String, Boolean, DateTime
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData, DateTime
+from sqlalchemy.orm import registry, mapped_column
 from sqlalchemy.sql import func
 from datetime import datetime
 from typing import Optional
 
-class Base(DeclarativeBase):
-    pass
+# Inisialisasi registry dan metadata - tetap pertahankan di global scope
+mapper_registry = registry()
+metadata = MetaData()  # Pastikan ini ada
 
-class User(Base):
-    __tablename__ = 'users'
-    
-    id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    username: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
-    email: Mapped[Optional[str]] = mapped_column(String(255), unique=True)
-    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
-    role: Mapped[int] = mapped_column(Integer, default=1)  # 1=user, 2=admin, 3=root
+users_table = Table(
+    "users",
+    metadata,
+    Column("id", Integer, primary_key=True),
+    Column("username", String(150), unique=True, nullable=False),
+    Column("email", String(255), unique=True),
+    Column("password_hash", String(255), nullable=False),
+    Column("role", Integer, default=1),  # 1=user, 2=admin, 3=root
 
-    # kolom tambahan
-    full_name: Mapped[Optional[str]] = mapped_column(String(255))
-    profile_photo: Mapped[Optional[str]] = mapped_column(String(255))
-    background_photo: Mapped[Optional[str]] = mapped_column(String(255))
-    phone: Mapped[Optional[str]] = mapped_column(String(50))
-    address: Mapped[Optional[str]] = mapped_column(String(255))
-    status: Mapped[str] = mapped_column(String(50), default="active")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
-    updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
-    last_login: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    # ----------- KOLOM TAMBAHAN LENGKAP -----------
+    Column("full_name", String(255)),
+    Column("profile_photo", String(255)),    # foto profil
+    Column("background_photo", String(255)), # foto background
+    Column("phone", String(50)),
+    Column("address", String(255)),
+    Column("status", String(50), default="active"),
+
+    # Perbaiki tipe data
+    Column("created_at", DateTime, default=func.now()),
+    Column("updated_at", DateTime, default=func.now(), onupdate=func.now()),
+    Column("last_login", DateTime, nullable=True),
+)
+
+@mapper_registry.mapped
+class User:
+    __table__ = users_table
+    __allow_unmapped__ = True  # Untuk menghindari error type annotation
 
     # Flask-login property
     def get_id(self):
@@ -54,3 +63,6 @@ class User(Base):
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+# Pastikan untuk mengekspor metadata
+__all__ = ['User', 'metadata', 'users_table', 'mapper_registry']
