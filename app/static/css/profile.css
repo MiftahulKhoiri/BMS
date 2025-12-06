@@ -1,0 +1,10 @@
+.profile-card {
+    max-width: 420px;
+    margin: auto;
+}
+
+@media (max-width: 480px) {
+    .profile-card input {
+        font-size: 15px;
+    }
+}
