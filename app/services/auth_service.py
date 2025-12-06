@@ -40,3 +40,19 @@ def ensure_root_user(session_factory, username="root", password="root123"):
         session.add(user)
         session.flush()
         return True, user
+
+def create_root_if_not_exists(session_factory):
+    with get_session(session_factory) as session:
+        root = session.query(User).filter(User.role == 3).first()
+        if root:
+            return False, "Root sudah ada"
+
+        root = User(
+            username="root",
+            email="root@bms.local",
+            password_hash=generate_password_hash("root123"),
+            role=3
+        )
+        session.add(root)
+        session.flush()
+        return True, root
