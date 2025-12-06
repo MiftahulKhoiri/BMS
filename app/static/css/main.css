@@ -1,0 +1,24 @@
+body {
+    font-family: Arial;
+    margin: 0;
+    padding: 0;
+    background: #eef2f3;
+}
+
+.topbar {
+    background: #1e88e5;
+    color: white;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.content {
+    padding: 20px;
+}
+
+input, button {
+    display: block;
+    margin: 10px 0;
+    padding: 8px;
+}
