@@ -1,8 +1,4 @@
-gunicorn
-Flask
-Werkzeug
-flask-cors
-Flask-sock
-psutil
-requests
-waitress
+Flask==2.3.3
+SQLAlchemy==2.0.20
+Flask-Login==0.6.2
+Werkzeug==2.3.7
