@@ -1,0 +1,21 @@
+#userTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#userTable th, #userTable td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.action-btn {
+    padding: 6px 10px;
+    background: #1976d2;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.action-btn:hover {
+    background: #0d47a1;
+}
