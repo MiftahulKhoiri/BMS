@@ -2,17 +2,24 @@
 {% block content %}
 <h2>Profil Saya</h2>
 
-<form id="updateProfile">
-    <label>Nama Lengkap</label>
-    <input type="text" id="full_name" value="{{ user.full_name }}">
+<div class="profile-card">
+    <img src="{{ url_for('static', filename='uploads/profiles/' ~ user.profile_photo)}}" class="profile-pic">
 
-    <label>Phone</label>
-    <input type="text" id="phone" value="{{ user.phone }}">
+    <form id="profileForm">
+        <label>Nama Lengkap</label>
+        <input type="text" id="full_name" value="{{ user.full_name }}">
 
-    <label>Address</label>
-    <input type="text" id="address" value="{{ user.address }}">
+        <label>No. Telepon</label>
+        <input type="text" id="phone" value="{{ user.phone }}">
 
-    <button type="button" onclick="saveProfile()">Simpan</button>
-</form>
+        <label>Alamat</label>
+        <input type="text" id="address" value="{{ user.address }}">
 
+        <button type="button" onclick="saveProfile()">Simpan</button>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 {% endblock %}
