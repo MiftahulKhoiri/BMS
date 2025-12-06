@@ -1,34 +1,27 @@
 {% extends "layout.html" %}
-{% block content %}
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/user_management.css') }}">
+{% endblock %}
 
+{% block content %}
 <h2>Manajemen User</h2>
 
-<table border="1">
-    <tr>
-        <th>ID</th>
-        <th>Username</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Aksi</th>
-    </tr>
-
-    {% for u in users %}
-    <tr>
-        <td>{{ u.id }}</td>
-        <td>{{ u.username }}</td>
-        <td>{{ u.email }}</td>
-        <td>{{ u.role }}</td>
-        <td>{{ u.status }}</td>
-
-        <td>
-            <a href="/users/update/{{ u.id }}">Edit</a>
-            {% if current_user.role == 3 %}
-            | <a href="/users/delete/{{ u.id }}">Hapus</a>
-            {% endif %}
-        </td>
-    </tr>
-    {% endfor %}
+<table id="userTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
 </table>
 
+{% endblock %}
+
+{% block js %}
+<script src="{{ url_for('static', filename='js/user_management.js') }}"></script>
 {% endblock %}
