@@ -5,6 +5,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 login_manager = LoginManager()
+from app.services.auth_service import create_root_if_not_exists
+
+def create_app(config_object="core.config.Config"):
+    ...
+    create_tables(engine)
+
+    # buat root otomatis
+    create_root_if_not_exists(SessionLocal)
+
+    return app
 
 def create_app(config_object="core.config.Config"):
     from core.config import Config
