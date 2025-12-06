@@ -18,7 +18,7 @@ users_table = Table(
 @mapper_registry.mapped
 class User:
     __table__ = users_table
-
+    role: int = mapped_column(Integer)
     id: int = mapped_column(Integer, primary_key=True)
     username: str = mapped_column(String(150))
     email: str = mapped_column(String(255))
