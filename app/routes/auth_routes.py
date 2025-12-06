@@ -75,3 +75,21 @@ def load_user(user_id):
         return session.query(User).get(int(user_id))
     finally:
         session.close()
+
+@auth_bp.post("/login")
+def login():
+    data = request.json or {}
+    username = data.get("username")
+    password = data.get("password")
+
+    ok, user = authenticate_user(current_app.db_session_factory, username, password)
+    if not ok:
+        return jsonify({"ok": False, "msg": user}), 401
+
+    login_user(user)
+    return jsonify({
+        "ok": True,
+        "user_id": user.id,
+        "username": user.username,
+        "role": user.role
+    })
