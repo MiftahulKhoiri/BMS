@@ -1,1 +1,3 @@
-console.log("BMS UI Loaded");
+function toggleMenu() {
+    document.querySelector(".nav-right").classList.toggle("active");
+}
