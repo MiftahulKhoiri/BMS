@@ -7,6 +7,18 @@
 <ul>
     <li><a href="/users">Manajemen Semua User</a></li>
     <li><a href="/settings/system">Pengaturan Sistem</a></li>
+    <h2>Update System</h2>
+
+<div class="update-box">
+    <button onclick="checkUpdate()" class="btn update-btn">🔍 Cek Update</button>
+    <button onclick="applyUpdate()" class="btn apply-btn">⬇ Update Sekarang</button>
+
+    <div id="updateStatus" class="status-text">Status: Menunggu...</div>
+
+    <div class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+    </div>
+</div>
 </ul>
 
 {% endblock %}
