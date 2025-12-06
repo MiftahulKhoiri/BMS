@@ -16,6 +16,19 @@
     border-radius: 5px;
 }
 
+/* Container agar tabel bisa di-scroll di HP */
+.table-container {
+    overflow-x: auto;
+    width: 100%;
+}
+
+@media (max-width: 768px) {
+    #userTable th, #userTable td {
+        padding: 10px;
+        font-size: 14px;
+    }
+}
+
 .action-btn:hover {
     background: #0d47a1;
 }
