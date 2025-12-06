@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Root Panel</h2>
+
+<p>Selamat datang, ROOT {{ user.username }}</p>
+
+<ul>
+    <li><a href="/users">Manajemen Semua User</a></li>
+    <li><a href="/settings/system">Pengaturan Sistem</a></li>
+</ul>
+
+{% endblock %}
