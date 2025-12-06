@@ -1,51 +1,31 @@
-from sqlalchemy import Table, Column, Integer, String, Boolean, MetaData
-from sqlalchemy.orm import registry, mapped_column
+from sqlalchemy import Integer, String, Boolean, DateTime
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.sql import func
+from datetime import datetime
+from typing import Optional
 
-mapper_registry = registry()
-metadata = MetaData()
+class Base(DeclarativeBase):
+    pass
 
-users_table = Table(
-    "users",
-    metadata,
-    Column("id", Integer, primary_key=True),
-    Column("username", String(150), unique=True, nullable=False),
-    Column("email", String(255), unique=True),
-    Column("password_hash", String(255), nullable=False),
-    Column("role", Integer, default=1),  # 1=user, 2=admin, 3=root
-
-    # ----------- KOLOM TAMBAHAN LENGKAP -----------
-    Column("full_name", String(255)),
-    Column("profile_photo", String(255)),    # foto profil
-    Column("background_photo", String(255)), # foto background
-    Column("phone", String(50)),
-    Column("address", String(255)),
-    Column("status", String(50), default="active"),
-
-    Column("created_at", String(50)),
-    Column("updated_at", String(50)),
-    Column("last_login", String(50)),
-)
-
-@mapper_registry.mapped
-class User:
-    __table__ = users_table
-
-    id: int = mapped_column(Integer, primary_key=True)
-    username: str = mapped_column(String(150))
-    email: str = mapped_column(String(255))
-    password_hash: str = mapped_column(String(255))
-    role: int = mapped_column(Integer)
+class User(Base):
+    __tablename__ = 'users'
+    
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    username: Mapped[str] = mapped_column(String(150), unique=True, nullable=False)
+    email: Mapped[Optional[str]] = mapped_column(String(255), unique=True)
+    password_hash: Mapped[str] = mapped_column(String(255), nullable=False)
+    role: Mapped[int] = mapped_column(Integer, default=1)  # 1=user, 2=admin, 3=root
 
     # kolom tambahan
-    full_name: str = mapped_column(String(255))
-    profile_photo: str = mapped_column(String(255))
-    background_photo: str = mapped_column(String(255))
-    phone: str = mapped_column(String(50))
-    address: str = mapped_column(String(255))
-    status: str = mapped_column(String(50))
-    created_at: str = mapped_column(String(50))
-    updated_at: str = mapped_column(String(50))
-    last_login: str = mapped_column(String(50))
+    full_name: Mapped[Optional[str]] = mapped_column(String(255))
+    profile_photo: Mapped[Optional[str]] = mapped_column(String(255))
+    background_photo: Mapped[Optional[str]] = mapped_column(String(255))
+    phone: Mapped[Optional[str]] = mapped_column(String(50))
+    address: Mapped[Optional[str]] = mapped_column(String(255))
+    status: Mapped[str] = mapped_column(String(50), default="active")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
+    last_login: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
 
     # Flask-login property
     def get_id(self):
@@ -57,8 +37,20 @@ class User:
 
     @property
     def is_active(self):
-        return True
+        return self.status == "active"
 
     @property
     def is_anonymous(self):
         return False
+    
+    # Helper untuk role
+    @property
+    def is_admin(self):
+        return self.role >= 2
+    
+    @property
+    def is_root(self):
+        return self.role == 3
+
+    def __repr__(self):
+        return f'<User {self.username}>'
