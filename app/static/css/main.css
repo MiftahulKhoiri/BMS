@@ -50,3 +50,58 @@ button {
 button:hover {
     background: #0d47a1;
 }
+
+/* ===============================
+   RESPONSIVE FOR MOBILE DEVICES
+   ===============================*/
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .navbar a {
+        display: block;
+        margin: 10px 0;
+    }
+
+    .page {
+        width: 95%;
+        padding: 15px;
+        margin: 10px auto;
+    }
+
+    input, button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .profile-pic {
+        width: 90px;
+        height: 90px;
+        margin: auto;
+    }
+
+    .card, .profile-card {
+        padding: 15px;
+    }
+}
+
+/* Ultra-small screens (HP jadul) */
+@media (max-width: 480px) {
+
+    h2 {
+        font-size: 20px;
+    }
+
+    button {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .navbar h2 {
+        font-size: 22px;
+    }
+}
