@@ -2,12 +2,15 @@
 {% block content %}
 <h2>Dashboard User</h2>
 
-<p>Selamat datang, {{ user.username }}</p>
+<div class="card">
+    <h3>Selamat datang, {{ user.full_name or user.username }}</h3>
+    <img src="{{ url_for('static', filename='uploads/profiles/' ~ user.profile_photo)}}" 
+         class="profile-pic">
 
-<ul>
-    <li><a href="/profile">Edit Profil</a></li>
-    <li><a href="/users/upload-profile/{{ user.id }}">Upload Foto Profil</a></li>
-    <li><a href="/users/upload-background/{{ user.id }}">Upload Background</a></li>
-</ul>
+    <p>Email: {{ user.email }}</p>
 
+    <a class="btn" href="/profile">Edit Profil</a>
+    <a class="btn" href="/users/upload-profile/{{ user.id }}">Ubah Foto Profil</a>
+    <a class="btn" href="/users/upload-background/{{ user.id }}">Ubah Background</a>
+</div>
 {% endblock %}
