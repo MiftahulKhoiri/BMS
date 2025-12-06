@@ -11,8 +11,9 @@ users_table = Table(
     Column("username", String(150), unique=True, nullable=False),
     Column("email", String(255), unique=True),
     Column("password_hash", String(255), nullable=False),
-    Column("is_root", Boolean, default=False),
+    Column("role", Integer, default=1),   # 1=user, 2=admin, 3=root
 )
+
 
 @mapper_registry.mapped
 class User:
